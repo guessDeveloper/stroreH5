@@ -10,13 +10,13 @@
 export default {
   name: 'Home',
   data() {
-    return
-    {
+    return {
 
     }
   },
   mounted() {
-    window.location.href = `yldauction://?url=${window.encodeURIComponent('http://192.168.199.125:8080/#/productDetail?goodsType=2&goodsId=623389024792')}`
+
+    window.location.href = `yldauction://?url=${window.encodeURIComponent('http://172.20.10.6:8080/static/close.html')}`
   }
 }
 </script>

@@ -9,11 +9,13 @@
 <script>
 export default {
   data() {
+    return {
 
+    }
   },
   mounted() {
-    
-    // https % 3a % 2f % 2fwww.baidu.com
+
+
   }
 }
 </script>

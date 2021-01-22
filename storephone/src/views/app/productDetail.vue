@@ -50,6 +50,9 @@
     </section>
     <section class="detail-content">
       <subtitle name="商品详情"></subtitle>
+      <!-- <div>
+
+      </div> -->
       <iframe :src="iframeSrc" frameborder="0" class="iframe" id="productIframe" @load="iframeHeight"></iframe>
     </section>
     <section class="">
@@ -95,6 +98,7 @@ export default {
       title: '',
       price: '',
       fanli: '',
+      html: '',
       error: false,
     }
   },
@@ -195,7 +199,9 @@ export default {
               this.goBuy(token)
             })
           } else {
-            this.goBuy(token)
+            this.getTbPass(token, () => {
+              this.goBuy(token)
+            })
           }
         } else {
           window.android && window.android.finishFromJS()
@@ -211,7 +217,9 @@ export default {
                 this.goBuy(token)
               })
             } else {
-              this.goBuy(token)
+              this.getTbPass(token, () => {
+                this.goBuy(token)
+              })
             }
           } else {
             window.webkit && window.webkit.messageHandlers.finishFromJS.postMessage("")
@@ -244,7 +252,7 @@ export default {
           //   dangerouslyUseHTMLString: true,
           //   showConfirmButton: false
           // });
-          window.open(res.data.Data.url)
+          window.location.href = res.data.Data.url
         } else {
           this.$toast.text(res.data.Msg);
         }
@@ -269,6 +277,39 @@ export default {
         console.log(res)
       })
     },
+    //查看淘宝是否授权
+    getTbPass(token, callback) {
+      this.$http.get(this.$api.GetUserIsKeepOnRecordTB, {
+        token: token
+      }).then(res => {
+        console.log(res)
+        if (res.data.Code == 1) {
+          if (res.data.Data.IsKeepOnRecord == false) {
+            this.getTbPassLink(token);
+          } else {
+            callback && callback(token)
+          }
+        } else {
+          callback && callback(token)
+        }
+      }).catch(res => {
+        console.log(res)
+      })
+    },
+    //获取淘宝授权链接
+    getTbPassLink(token) {
+      this.$http.get(this.$api.GetTBAuthorizationLink, { token: token }).then(res => {
+        if (res.data.Code == 1) {
+          // this.$alert.alert(`<iframe src=${res.data.Data.url} width="100%" height="400px" style="border:0;height:70vh;"></iframe>`, '拼多多授权', {
+          //   dangerouslyUseHTMLString: true,
+          //   showConfirmButton: false
+          // });
+          window.location.href = res.data.Data.url
+        } else {
+          this.$toast.text(res.data.Msg);
+        }
+      })
+    }
   }
 }
 </script>
@@ -337,14 +378,14 @@ export default {
     }
   }
   .item {
-    width: 100px;
+    width: 110px;
     img {
       display: block;
       width: 100%;
     }
     .tip-item-name {
       display: block;
-      font-size: 24px;
+      font-size: 22px;
       line-height: 64px;
     }
     .middle {

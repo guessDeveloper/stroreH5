@@ -8,8 +8,8 @@ import $http from '@/assets/js/https.js'
 import $util from '@/assets/js/common.js'
 import { toast } from '@nutui/nutui'
 toast.install(Vue)
-import Vconsole from 'vconsole';
-new Vconsole();
+// import Vconsole from 'vconsole';
+// new Vconsole();
 // import '@nutui/nutui/dist/nutui.css';
 Vue.config.productionTip = false
 Vue.prototype.$http = $http
